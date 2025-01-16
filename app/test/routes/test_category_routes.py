@@ -21,3 +21,18 @@ def test_add_category_route(db_session):
 
     db_session.delete(categories_on_db[0])
     db_session.commit()
+
+
+def test_list_categories_route(categories_on_db):
+    response = client.get('/category/list')
+
+    assert response.status_code == status.HTTP_200_OK
+
+    data = response.json()
+
+    assert len(data) == 4
+    assert data[0] == {
+        "id": categories_on_db[0].id,
+        "name": categories_on_db[0].name,
+        "slug": categories_on_db[0].slug,
+    }
