@@ -11,8 +11,8 @@ def test_add_product_route(db_session, categories_on_db):
     body = {
         "category_slug": categories_on_db[0].slug,
         "product": {
-            "name": "Camisa Mike",
-            "slug": "camisa-mike",
+            "name": "Produto Teste",
+            "slug": "produto-teste",
             "price": 23.99,
             "stock": 23
         }
@@ -32,8 +32,8 @@ def test_add_product_route_invalid_category_slug(db_session):
     body = {
         "category_slug": 'invalid',
         "product": {
-            "name": "Camisa Mike",
-            "slug": "camisa-mike",
+            "name": "Produto Teste",
+            "slug": "produto-teste",
             "price": 23.99,
             "stock": 23
         }
@@ -48,8 +48,8 @@ def test_add_product_route_invalid_category_slug(db_session):
 
 def test_update_product_route(db_session, product_on_db):
     body = {
-        "name": "Update Camisa",
-        "slug": "update-camisa",
+        "name": "Produto Atualizado",
+        "slug": "produto-atualizado",
         "price": 23.88,
         "stock": 10
     }
@@ -60,16 +60,16 @@ def test_update_product_route(db_session, product_on_db):
 
     db_session.refresh(product_on_db)
 
-    assert product_on_db.name == "Update Camisa"
-    assert product_on_db.slug == "update-camisa"
+    assert product_on_db.name == "Produto Atualizado"
+    assert product_on_db.slug == "produto-atualizado"
     assert product_on_db.price == 23.88
     assert product_on_db.stock == 10
 
 
 def test_update_product_route_invalid_id(db_session):
     body = {
-        "name": "Update Camisa",
-        "slug": "update-camisa",
+        "name": "Produto Atualizado",
+        "slug": "produto-atualizado",
         "price": 23.88,
         "stock": 10
     }

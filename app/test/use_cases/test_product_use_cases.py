@@ -7,8 +7,8 @@ from app.use_cases.product import ProductUseCases
 
 def test_add_product_uc(db_session, categories_on_db):
     product = Product(
-        name="Camisa Mike",
-        slug="camisa-mike",
+        name="Produto Teste",
+        slug="produto-teste",
         price=22.99,
         stock=22,
     )
@@ -16,23 +16,23 @@ def test_add_product_uc(db_session, categories_on_db):
     uc = ProductUseCases(db_session)
     uc.add_product(product=product, category_slug=categories_on_db[0].slug)
 
-    product_on_db = db_session.query(ProductModel).first()
+    products_on_db = db_session.query(ProductModel).all()
 
-    assert product_on_db is not None
-    assert product_on_db.name == product.name
-    assert product_on_db.slug == product.slug
-    assert product_on_db.price == product.price
-    assert product_on_db.stock == product.stock
-    assert product_on_db.category.name == categories_on_db[0].name
+    assert len(products_on_db) == 1
+    assert products_on_db[0].name == product.name
+    assert products_on_db[0].slug == product.slug
+    assert products_on_db[0].price == product.price
+    assert products_on_db[0].stock == product.stock
+    assert products_on_db[0].category.name == categories_on_db[0].name
 
-    db_session.delete(product_on_db)
+    db_session.delete(products_on_db[0])
     db_session.commit()
 
 
 def test_add_product_uc_invalid_category(db_session):
     product = Product(
-        name="Camisa Mike",
-        slug="camisa-mike",
+        name="Produto Teste",
+        slug="produto-teste",
         price=22.99,
         stock=22,
     )
@@ -45,8 +45,8 @@ def test_add_product_uc_invalid_category(db_session):
 
 def test_update_product_uc(db_session, product_on_db):
     product = Product(
-        name="Camisa Mike",
-        slug="camisa-mike",
+        name="Produto Atualizado",
+        slug="produto-atualizado",
         price=22.99,
         stock=22,
     )
@@ -65,8 +65,8 @@ def test_update_product_uc(db_session, product_on_db):
 
 def test_update_product_uc_invalid_id(db_session):
     product = Product(
-        name="Camisa Mike",
-        slug="camisa-mike",
+        name="Produto Atualizado",
+        slug="produto-atualizado",
         price=22.99,
         stock=22,
     )

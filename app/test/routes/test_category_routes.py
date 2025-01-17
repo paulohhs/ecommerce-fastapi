@@ -9,8 +9,8 @@ client = TestClient(app)
 
 def test_add_category_route(db_session):
     body = {
-        "name": "Roupa",
-        "slug": "roupa"
+        "name": "Categoria Teste",
+        "slug": "categoria-teste"
     }
 
     response = client.post('/category/add', json=body)

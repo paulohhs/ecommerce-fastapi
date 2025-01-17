@@ -15,12 +15,26 @@ def db_session():
 
 
 @pytest.fixture()
+def category_on_db(db_session):
+    category = CategoryModel(name="Categoria Teste", slug="categoria-teste")
+
+    db_session.add(category)
+    db_session.commit()
+    db_session.refresh(category)
+
+    yield category
+
+    db_session.delete(category)
+    db_session.commit()
+
+
+@pytest.fixture()
 def categories_on_db(db_session):
     categories = [
-        CategoryModel(name="Roupa", slug="roupa"),
-        CategoryModel(name="Carro", slug="carro"),
-        CategoryModel(name="Itens de cozinha", slug="itens-de-cozinha"),
-        CategoryModel(name="Decoracao", slug="decoracao"),
+        CategoryModel(name="Categoria Teste Um", slug="categoria-teste-um"),
+        CategoryModel(name="Categoria Teste Dois", slug="categoria-teste-dois"),
+        CategoryModel(name="Categoria Teste Tres", slug="categoria-teste-tres"),
+        CategoryModel(name="Categoria Teste Quatro", slug="categoria-teste-quatro"),
     ]
 
     for category in categories:
@@ -39,13 +53,13 @@ def categories_on_db(db_session):
 
 @pytest.fixture()
 def product_on_db(db_session):
-    category = CategoryModel(name="Carro", slug="carro")
+    category = CategoryModel(name="Categoria Teste", slug="categoria-teste")
     db_session.add(category)
     db_session.commit()
 
     product = ProductModel(
-        name="Camisa Tenda", 
-        slug="camisa-tenda",
+        name="Produto Teste", 
+        slug="produto-teste",
         price=99.99,
         stock=20,
         category_id=category.id
@@ -57,5 +71,38 @@ def product_on_db(db_session):
     yield product
 
     db_session.delete(product)
+    db_session.delete(category)
+    db_session.commit()
+
+
+@pytest.fixture()
+def products_on_db(db_session):
+    category = CategoryModel(name="Categoria Teste", slug="categoria-teste")
+    db_session.add(category)
+    db_session.commit()
+
+    products = [
+        ProductModel(name="Produto Teste Um", slug="produto-teste-um"),
+        ProductModel(name="Produto Teste Dois", slug="produto-teste-dois"),
+        ProductModel(name="Produto Teste Tres", slug="produto-teste-tres"),
+        ProductModel(name="Produto Teste Quatro", slug="produto-teste-quatro"),
+    ]
+
+    for product in products:
+        db_session.add(product)
+    db_session.commit()
+
+    for product in products:
+        db_session.add(product)
+    db_session.commit()
+
+    for product in products:
+        db_session.refresh(product)
+
+    yield products
+
+    for product in products:
+        db_session.delete(product)
+
     db_session.delete(category)
     db_session.commit()
