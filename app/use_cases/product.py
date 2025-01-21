@@ -3,12 +3,18 @@ from fastapi import status
 from fastapi.exceptions import HTTPException
 from app.db.models import Product as ProductModel
 from app.db.models import Category as CategoryModel
-from app.schemas.product import Product
+from app.schemas.product import Product, ProductOutput
 
 
 class ProductUseCases:
     def __init__(self, db_session: Session):
         self.db_session = db_session
+
+    def _serialize_product(self, product_on_db: ProductModel):
+        product_dict = product_on_db.__dict__
+        product_dict["category"] = product_on_db.category.__dict__
+
+        return ProductOutput(**product_dict)
 
     def add_product(self, product: Product, category_slug: str):
         category = self.db_session.query(CategoryModel).filter_by(slug=category_slug).first()
@@ -45,3 +51,12 @@ class ProductUseCases:
         self.db_session.delete(product_on_db)
         self.db_session.commit()
 
+    def list_products(self):
+        products_on_db = self.db_session.query(ProductModel).all()
+
+        products = [
+            self._serialize_product(product_on_db)
+            for product_on_db in products_on_db
+        ]
+
+        return products
