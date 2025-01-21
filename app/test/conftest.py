@@ -82,10 +82,10 @@ def products_on_db(db_session):
     db_session.commit()
 
     products = [
-        ProductModel(name="Produto Teste Um", slug="produto-teste-um"),
-        ProductModel(name="Produto Teste Dois", slug="produto-teste-dois"),
-        ProductModel(name="Produto Teste Tres", slug="produto-teste-tres"),
-        ProductModel(name="Produto Teste Quatro", slug="produto-teste-quatro"),
+        ProductModel(name="Produto Teste Um", slug="produto-teste-um", price=9.99, stock=10, category_id=category.id),
+        ProductModel(name="Produto Teste Dois", slug="produto-teste-dois", price=12.99, stock=12, category_id=category.id),
+        ProductModel(name="Produto Teste Tres", slug="produto-teste-tres", price=15.99, stock=15, category_id=category.id),
+        ProductModel(name="Produto Teste Quatro", slug="produto-teste-quatro", price=19.99, stock=18, category_id=category.id),
     ]
 
     for product in products:
