@@ -115,9 +115,11 @@ def products_on_db(db_session):
 
 @pytest.fixture()
 def user_on_db(db_session):
-    user = UserModel(username="UsuarioTeste", password=crypt_context.hash("categoria-teste"))
+    user = UserModel(username="UsuarioTeste", password=crypt_context.hash("pass#"))
+    
     db_session.add(user)
     db_session.commit()
+    db_session.refresh(user)
 
     yield user
 
