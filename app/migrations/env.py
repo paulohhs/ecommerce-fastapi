@@ -11,7 +11,8 @@ from app.db.models import Base
 # access to the values within the .ini file in use.
 config = context.config
 
-DB_URL = config_decouple('DB_URL')
+TEST_MODE = config_decouple('TEST_MODE', default=False, cast=bool)
+DB_URL = config_decouple('DB_URL_TEST') if TEST_MODE else config_decouple('DB_URL')
 config.set_main_option('sqlalchemy.url', DB_URL)
 
 # Interpret the config file for Python logging.
