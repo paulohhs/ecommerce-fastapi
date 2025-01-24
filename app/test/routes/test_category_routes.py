@@ -5,6 +5,8 @@ from app.main import app
 
 
 client = TestClient(app)
+headers = {"Authorization": "Bearer token"}
+client.headers = headers
 
 
 def test_add_category_route(db_session):
